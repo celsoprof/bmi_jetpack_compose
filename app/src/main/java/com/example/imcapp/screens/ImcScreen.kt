@@ -71,12 +71,24 @@ fun ImcScreen(modifier: Modifier = Modifier, navController: NavHostController?) 
         mutableStateOf("")
     }
 
+    var ageErrorState by remember {
+        mutableStateOf(false)
+    }
+
     var weightState by remember {
         mutableStateOf("")
     }
 
+    var weightErrorState by remember {
+        mutableStateOf(false)
+    }
+
     var heightState by remember {
         mutableStateOf("")
+    }
+
+    var heighErrorState by remember {
+        mutableStateOf(false)
     }
 
     var isFemale by remember {
@@ -139,6 +151,7 @@ fun ImcScreen(modifier: Modifier = Modifier, navController: NavHostController?) 
                                 label = "Age",
                                 suffix = "years old",
                                 leadingIcon = Icons.Default.Numbers,
+                                isError = ageErrorState,
                                 keyboardType = KeyboardType.Number,
                                 imeAction = ImeAction.Next,
                                 onValueChange = {
@@ -151,6 +164,7 @@ fun ImcScreen(modifier: Modifier = Modifier, navController: NavHostController?) 
                                 label = "Weight",
                                 suffix = "kgs",
                                 leadingIcon = Icons.Default.Balance,
+                                isError = weightErrorState,
                                 keyboardType = KeyboardType.Number,
                                 imeAction = ImeAction.Next,
                                 onValueChange = {
@@ -163,6 +177,7 @@ fun ImcScreen(modifier: Modifier = Modifier, navController: NavHostController?) 
                                 label = "Height",
                                 suffix = "cms",
                                 leadingIcon = Icons.Default.Height,
+                                isError = heighErrorState,
                                 keyboardType = KeyboardType.Number,
                                 imeAction = ImeAction.Done,
                                 onValueChange = {
@@ -173,12 +188,22 @@ fun ImcScreen(modifier: Modifier = Modifier, navController: NavHostController?) 
 
                         Button(
                             onClick = {
-                                val editor = sharedUser.edit()
-                                editor.putString("age", ageState)
-                                editor.putString("weight", weightState)
-                                editor.putString("height", heightState)
-                                editor.apply()
-                                navController?.navigate("result")
+
+                                when {
+                                    ageState == "" -> ageErrorState = true
+                                    weightState == "" -> weightErrorState = true
+                                    heightState == "" -> heighErrorState = true
+                                }
+
+                                if(!ageErrorState && !weightErrorState && !heighErrorState){
+                                    val editor = sharedUser.edit()
+                                    editor.putString("age", ageState)
+                                    editor.putString("weight", weightState)
+                                    editor.putString("height", heightState)
+                                    editor.apply()
+                                    navController?.navigate("result")
+                                }
+
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -212,6 +237,7 @@ fun MyOutlinedTextField(
     leadingIcon: ImageVector? = null,
     keyboardType: KeyboardType,
     imeAction: ImeAction,
+    isError: Boolean = false,
     onValueChange: (String) -> Unit
 ) {
 
@@ -234,6 +260,7 @@ fun MyOutlinedTextField(
                 )
             }
         },
+        isError = isError,
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
             imeAction = imeAction
