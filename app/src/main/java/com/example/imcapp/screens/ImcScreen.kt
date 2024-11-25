@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Balance
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Height
 import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material3.Button
@@ -156,6 +157,7 @@ fun ImcScreen(modifier: Modifier = Modifier, navController: NavHostController?) 
                                 imeAction = ImeAction.Next,
                                 onValueChange = {
                                     ageState = it
+                                    if (ageState.isNotEmpty()) ageErrorState = false else ageErrorState = true
                                 }
                             )
 
@@ -169,6 +171,7 @@ fun ImcScreen(modifier: Modifier = Modifier, navController: NavHostController?) 
                                 imeAction = ImeAction.Next,
                                 onValueChange = {
                                     weightState = it
+                                    if (weightState.isNotEmpty()) weightErrorState = false else weightErrorState = true
                                 }
                             )
 
@@ -182,6 +185,7 @@ fun ImcScreen(modifier: Modifier = Modifier, navController: NavHostController?) 
                                 imeAction = ImeAction.Done,
                                 onValueChange = {
                                     heightState = it
+                                    if (heightState.isNotEmpty()) heighErrorState = false else heighErrorState = true
                                 }
                             )
                         }
@@ -267,6 +271,12 @@ fun MyOutlinedTextField(
         ),
         suffix = {
             Text(text = suffix)
+        },
+        trailingIcon = {
+            if (isError) Icon(imageVector = Icons.Default.Error, contentDescription = "Error")
+        },
+        supportingText = {
+            if (isError) Text(text = "$label is required!")
         }
     )
 

@@ -57,6 +57,8 @@ fun ResultScreen(modifier: Modifier = Modifier, navController: NavHostController
 
     val bmi = bmiCalc(weight!!.toInt(), height!!.toDouble())
 
+
+
     val saudacao = "Your BMI Result"
 
     val gradient = Brush.linearGradient(
@@ -121,7 +123,7 @@ fun ResultScreen(modifier: Modifier = Modifier, navController: NavHostController
                             shape = CircleShape,
                             border = BorderStroke(
                                 width = 8.dp,
-                                color = colorResource(id = R.color.light_green)
+                                color = bmi.color //colorResource(id = R.color.light_green)
                             ),
                             colors = CardDefaults
                                 .cardColors(
@@ -215,42 +217,42 @@ fun ResultScreen(modifier: Modifier = Modifier, navController: NavHostController
                             levelText = "Underweight",
                             levelNumber = "<18.5",
                             markColor = colorResource(id = R.color.light_blue),
-                            cardColor = colorResource(id = R.color.light_blue),
+                            cardColor = bmi.color,
                             isMarked = bmi.bmiState == BmiState.UNDERWEIGHT
                         )
                         BmiLevels(
                             levelText = "Normal",
                             levelNumber = "18.6 - 24.9",
                             markColor = colorResource(id = R.color.light_green),
-                            cardColor = colorResource(id = R.color.light_green),
+                            cardColor = bmi.color,
                             isMarked = bmi.bmiState == BmiState.NORMAL
                         )
                         BmiLevels(
                             levelText = "Overweight",
                             levelNumber = "25.0 - 29.9",
                             markColor = colorResource(id = R.color.yellow),
-                            cardColor = colorResource(id = R.color.yellow),
+                            cardColor = bmi.color,
                             isMarked = bmi.bmiState == BmiState.OVERWEIGHT
                         )
                         BmiLevels(
                             levelText = "Obesity class I",
                             levelNumber = "30.0 - 34.9",
                             markColor = colorResource(id = R.color.light_orange),
-                            cardColor = colorResource(id = R.color.light_orange),
+                            cardColor = bmi.color,
                             isMarked = bmi.bmiState == BmiState.OBESITY1
                         )
                         BmiLevels(
                             levelText = "Obesity class II",
                             levelNumber = "35.0 - 39.9",
                             markColor = colorResource(id = R.color.black_orange),
-                            cardColor = colorResource(id = R.color.black_orange),
+                            cardColor = bmi.color,
                             isMarked = bmi.bmiState == BmiState.OBESITY2
                         )
                         BmiLevels(
                             levelText = "Obesity class III",
                             levelNumber = ">39.9",
                             markColor = colorResource(id = R.color.red),
-                            cardColor = colorResource(id = R.color.red),
+                            cardColor = bmi.color,
                             isMarked = bmi.bmiState == BmiState.OBESITY3
                         )
                         HorizontalDivider(modifier = Modifier.padding(vertical = 32.dp))
